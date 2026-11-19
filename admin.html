@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>لوحة التحكم | Ivory</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .box { background: var(--card); border-radius: 22px; padding: 24px; box-shadow: var(--sh); margin-bottom: 24px; }
+  .box h2 { margin-bottom: 16px; font-size: 22px; }
+  .fg2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  input, select { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--p2); font-family: inherit; font-size: 15px; background: var(--bg); color: var(--tx); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; align-items: center; }
+  .btn { border: 0; border-radius: 30px; padding: 11px 26px; font-family: inherit; font-weight: 700; cursor: pointer; background: var(--p); color: #fff; }
+  .btn.gray { background: var(--soft); color: var(--tx); }
+  .btn.red { background: #e0446f; }
+  .btn.sm { padding: 6px 14px; font-size: 13px; }
+  .login { max-width: 420px; margin: 70px auto; }
+  .tw { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 640px; }
+  th, td { padding: 10px; text-align: right; border-bottom: 1px solid var(--soft); }
+  td img { width: 48px; height: 48px; object-fit: cover; border-radius: 10px; }
+  .em { font-size: 30px; }
+  .off { opacity: .5; }
+  .msg { margin-top: 12px; font-weight: 600; }
+  .msg.err { color: #e0446f; }
+  .msg.ok { color: #1f9d55; }
+  .hd { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; flex-wrap: wrap; gap: 10px; }
+  .hide { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hd">
+    <a class="logo" href="index.html">Ivory<span>.</span> <small style="font-size:16px;color:var(--mu)">لوحة التحكم</small></a>
+    <div class="row" style="margin:0"><a class="btn gray sm" href="index.html">عرض المتجر</a><button class="btn gray sm hide" id="out">تسجيل الخروج</button></div>
+  </div>
+
+  <div class="box login" id="loginBox">
+    <h2>🔐 تسجيل دخول الأدمن</h2>
+    <form id="loginForm">
+      <label for="em">الإيميل</label><input id="em" type="email" required autocomplete="username">
+      <label for="pw" style="margin-top:12px">كلمة المرور</label><input id="pw" type="password" required autocomplete="current-password">
+      <div class="row"><button class="btn" type="submit">دخول</button></div>
+      <p class="msg err" id="lmsg"></p>
+    </form>
+  </div>
+
+  <div id="app" class="hide">
+    <div class="box">
+      <h2 id="ft">➕ إضافة منتج جديد</h2>
+      <form id="pf">
+        <div class="fg2">
+          <div><label for="nm">اسم المنتج</label><input id="nm" required maxlength="120"></div>
+          <div><label for="ct">القسم</label><input id="ct" required list="cats" maxlength="40" placeholder="مثال: حلل"><datalist id="cats"></datalist></div>
+          <div><label for="po">السعر قبل الخصم (ج.م)</label><input id="po" type="number" min="0" step="1" required></div>
+          <div><label for="pn">السعر بعد الخصم (ج.م)</label><input id="pn" type="number" min="0" step="1" required></div>
+          <div><label for="rt">التقييم</label><select id="rt"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div>
+          <div><label for="em2">إيموجي (يظهر لو مفيش صورة)</label><input id="em2" value="🎀" maxlength="4"></div>
+          <div><label for="im">صورة المنتج (حتى 2 ميجا)</label><input id="im" type="file" accept="image/png,image/jpeg,image/webp"></div>
+          <div><label for="ac">الحالة</label><select id="ac"><option value="1">ظاهر في المتجر</option><option value="0">مخفي</option></select></div>
+        </div>
+        <div class="row">
+          <button class="btn" type="submit" id="sv">حفظ المنتج</button>
+          <button class="btn gray hide" type="button" id="cn">إلغاء التعديل</button>
+        </div>
+        <p class="msg" id="fm"></p>
+      </form>
+    </div>
+
+    <div class="box">
+      <h2>📦 المنتجات (<span id="cnt">0</span>)</h2>
+      <div class="tw"><table>
+        <thead><tr><th>الصورة</th><th>الاسم</th><th>القسم</th><th>قبل</th><th>بعد</th><th>الحالة</th><th></th></tr></thead>
+        <tbody id="tb"></tbody>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
